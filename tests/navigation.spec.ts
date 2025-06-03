@@ -2,7 +2,13 @@ import { test, expect } from '../fixtures/fixture'
 
 test.describe('Navigation', () => {
 
-    test('Open documentation in a new tab', async({ menu, nodesPage, context }) => {
+    /**
+     * Test: Documentation opens successfully in a new tab
+     * Showcase: Tabs
+     */
+    test('Documentation opens successfully in a new tab', {
+        tag: ['@production','@staging','@dev']
+    }, async({ menu, nodesPage, context }) => {
         const [newTab] = await Promise.all([
             context.waitForEvent('page'),
             await menu.openDocs()

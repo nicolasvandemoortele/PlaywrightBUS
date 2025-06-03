@@ -1,4 +1,5 @@
 import { defineConfig, devices } from '@playwright/test';
+import type { AxeOptions } from './fixtures/fixture';
 import dotenv from 'dotenv';
 import path from 'path';
 
@@ -7,7 +8,7 @@ dotenv.config({ path: path.resolve(__dirname, '.env') });
 /**
  * See https://playwright.dev/docs/test-configuration.
  */
-export default defineConfig({
+export default defineConfig<AxeOptions>({
   testDir: './tests',
   /* Run tests in files in parallel */
   fullyParallel: false,
@@ -42,6 +43,7 @@ export default defineConfig({
         browserName: 'chromium',
         storageState: '.auth/user.json',
         testIdAttribute: 'data-cy',
+        defaultLevel: ['wcag2a'],
       },
     },
 

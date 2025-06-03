@@ -1,30 +1,58 @@
-import { test, expect } from '../fixtures/fixture'
+import { expect, test } from '../fixtures/fixture'
 
 test.describe('Nodes page tests', () => {
 
-    // Positive tests
-    test('Nodes list is displayed correctly', async({ nodesPage }) => {
+    /**
+     * Test: All elements on Nodes page are displayed correctly
+     * Showcase: 
+     */
+    test('Nodes list is displayed correctly', {
+        tag: ['@production','@staging','@dev']
+    }, async({ nodesPage }) => {
         await nodesPage.checkTitle();
         await nodesPage.checkPageElements();
     });
 
+    /**
+     * Test: Use can open a node details page in a new tab
+     * Showcase: Annotations, Tabs, Control-click
+     */
     test.fail('Open node in a new tab', {
         annotation: {
             type: 'issue',
-            description: 'Open node details in a new tab does not work'
-        }
+            description: 'Open node details in a new tab has stopped working'
+        },
+        tag: ['@staging','@dev']
     }, async({ nodesPage, context }) => {
-        const newTabPromise = context.waitForEvent('page');
-
         const nodeList = await nodesPage.getNodes()
-        await nodeList.first().click({ modifiers: ["ControlOrMeta"]})
-        const newTab = await newTabPromise;
+        const [newTab] = await Promise.all([
+            context.waitForEvent('page'),
+            await nodeList.first().click({ modifiers: ["ControlOrMeta"]})
+        ])
+        await expect(newTab.locator('h2')).toHaveText('Details and settings')
 
         await nodesPage.checkTitle();
     });
 
-
-        // Search for existing node
+    /**
+     * Test: Use can search for an existing node
+     * Showcase: Randomization
+     */    
+    test('Search for existing node', {
+        tag: ['@production','@staging','@dev']
+    }, async({ nodesPage }) => {
+        const nodesList = await nodesPage.getNodes();
+        const nodesCount = await nodesList.count();
+        const randomNode = Math.floor(Math.random() * nodesCount);
+        const nodeToSearch = 
+            await nodesList.nth(randomNode)
+                .locator('td')
+                .first()
+                .innerText();
+        await nodesPage.searchNode(nodeToSearch);
+        const newNodesList = await nodesPage.getNodes();
+        await expect(newNodesList.first()).toContainText(nodeToSearch);
+    })
         // Search with special chars
         // Filter by team
         // Filter by emit/receive
@@ -33,10 +61,32 @@ test.describe('Nodes page tests', () => {
         // Click on add new
 
     // Negative tests
-        // Search for non existent node
+    
+    test('Search for non existent node', {
+        tag: ['@production','@staging','@dev']
+    }, async({ nodesPage }) => {
+        await nodesPage.searchNode('This node doesn\'t exist')
+        const nodesList = await nodesPage.getNodes()
+        await expect(nodesList).toHaveCount(1)
+        await expect(nodesList).toHaveText('No nodes found')
+    })
         // Try to go to a non-existent page
 
     // Non-functional tests
-        // Page is WCAG compliant, critical
+    
+    /**
+     * Test: Nodes page adhere to accessiblity rules
+     * Showcase: Accessibility testing, Attachment, Soft assertions
+     */    
+    test('Nodes page adhere to accessiblity rules', {
+        tag: ['@production','@staging','@dev']
+    }, async({ nodesPage, axeBuild }, testInfo) => {
+        const accessibleResult = axeBuild;
+        await expect.soft(accessibleResult.violations).toHaveLength(0);
+        await testInfo.attach('accessibility-scan-results', {
+            body: JSON.stringify(accessibleResult.violations, null, 2),
+            contentType: 'application/json'
+        });
+    })
 
 })

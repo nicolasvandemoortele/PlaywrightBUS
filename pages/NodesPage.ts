@@ -30,9 +30,13 @@ export class NodesPage {
     }
 
     async navigate() {
-        const promise = waitForAPIResponse(this.page, '/nodes')
-        await this.page.goto('/nodes');
-        await promise;
+        const [response] = await Promise.all([
+            waitForAPIResponse(this.page, '/api/nodes'),
+            await this.page.goto('/nodes')
+        ]);
+        await expect(response.ok()).toBeTruthy();
+        const json = await response.json()
+        await expect(json.length).toBeGreaterThan(1)
     }
 
     async checkTitle() {
@@ -53,4 +57,11 @@ export class NodesPage {
     async getNodes() {
         return await this.nodes;
     }
+
+    async searchNode(term: string) {
+        await this.search.clear();
+        await this.search.fill(term);
+        await this.search.press('Enter');
+    }
+
 }

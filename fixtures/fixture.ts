@@ -4,6 +4,11 @@ import { NodesPage } from '../pages/NodesPage';
 import { waitForAPIResponse } from '../helpers/utilities';
 import { NodeDetailsPage } from '../pages/NodeDetailsPage';
 import { Menu } from '../pages/Menu';
+import AxeBuilder from '@axe-core/playwright';
+
+export type AxeOptions = {
+  defaultLevel: string[];
+};
 
 type BusFixture = {
     loginPage: LoginPage;
@@ -11,9 +16,10 @@ type BusFixture = {
     nodeDetailsPage: NodeDetailsPage;
     menu: Menu;
     waitForAPI;
+    axeBuild;
 }
 
-export const test = base.extend<BusFixture>({
+export const test = base.extend<BusFixture & AxeOptions>({
     loginPage: async ({ page }, use) => {
         const loginPage = new LoginPage(page);
         await loginPage.navigate();
@@ -40,7 +46,16 @@ export const test = base.extend<BusFixture>({
         await use((url, method, code) => 
             waitForAPIResponse(page, url, method, code) 
         )
-    }
+    },
+
+    defaultLevel: [['wcag2a','wcag2aa','wcag21a','wcag21aa'], { option: true }],
+
+    axeBuild: async ({ page, defaultLevel }, use) => {
+        const accessibilityScanResults = await new AxeBuilder({ page })
+            .withTags(defaultLevel)
+            .analyze();
+        await use(accessibilityScanResults);
+    },
 })
 
 export { expect } from '@playwright/test'
