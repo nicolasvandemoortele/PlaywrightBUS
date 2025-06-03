@@ -57,7 +57,31 @@ test.describe('Nodes page tests', () => {
         // Filter by team
         // Filter by emit/receive
         // Display nodes per page
-        // Navigate between pages
+
+    /**
+     * Test: Navigate to the last page then to the first page
+     * Showcase: Loops
+     */
+    test('Navigate between pages', {
+        tag: ['@production','@staging','@dev']
+    }, async({ nodesPage }) => {
+        
+        let lastPage: boolean = false;
+        while(!lastPage) {
+            await nodesPage.goToNextPage();
+            lastPage = await nodesPage.isOnLastPage() ? true : false;
+        }
+
+        await nodesPage.assertNodeListIsNotEmpty();
+        
+        let firstPage: boolean = false;
+        while(!firstPage) {
+            await nodesPage.goToPreviousPage();
+            firstPage = await nodesPage.isOnFirstPage() ? true : false;
+        }
+        
+        await nodesPage.assertNodeListIsNotEmpty();
+    })
         // Click on add new
 
     // Negative tests
@@ -70,7 +94,13 @@ test.describe('Nodes page tests', () => {
         await expect(nodesList).toHaveCount(1)
         await expect(nodesList).toHaveText('No nodes found')
     })
-        // Try to go to a non-existent page
+        
+    test('Go to a non-existent page', {
+        tag: ['@production','@staging','@dev']
+    }, async({ nodesPage }) => {
+        await nodesPage.goToPage('0')
+        await nodesPage.assertNodeListIsNotEmpty();
+    })
 
     // Non-functional tests
     

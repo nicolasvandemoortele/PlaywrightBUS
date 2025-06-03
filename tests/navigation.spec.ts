@@ -20,4 +20,11 @@ test.describe('Navigation', () => {
         // Check that the original page is still on the Nodes list
         await nodesPage.checkTitle();
     })
+
+    test('Teams page opens successfully', {
+        tag: ['@production','@staging','@dev']
+    }, async({ menu, nodesPage, teamsPage }) => {
+        await menu.openTeams();
+        await teamsPage.assertTitle();
+    })
 })

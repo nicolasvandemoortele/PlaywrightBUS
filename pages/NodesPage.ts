@@ -64,4 +64,33 @@ export class NodesPage {
         await this.search.press('Enter');
     }
 
+    async goToPage(pageNumber: string) {
+        await this.pageInput.clear();
+        await this.pageInput.fill(pageNumber);
+        await this.pageInput.press('Enter');
+    }
+
+    async goToNextPage() {
+        await this.next.click()
+    }
+
+    async goToPreviousPage() {
+        await this.previous.click()
+    }
+
+    async isOnLastPage() {
+        const classAttr = await this.next.getAttribute('class')
+        return classAttr?.includes('disabled')
+    }
+
+    async isOnFirstPage() {
+        const classAttr = await this.previous.getAttribute('class')
+        return classAttr?.includes('disabled')
+    }
+
+    async assertNodeListIsNotEmpty() {
+        const nodesList = await this.nodes;
+        await expect(await nodesList.count()).toBeGreaterThan(1)
+        await expect(nodesList.first()).not.toHaveText('No nodes found')
+    }
 }

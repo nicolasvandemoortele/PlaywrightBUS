@@ -5,6 +5,7 @@ import { waitForAPIResponse } from '../helpers/utilities';
 import { NodeDetailsPage } from '../pages/NodeDetailsPage';
 import { Menu } from '../pages/Menu';
 import AxeBuilder from '@axe-core/playwright';
+import { TeamsPage } from '../pages/TeamsPage';
 
 export type AxeOptions = {
   defaultLevel: string[];
@@ -14,6 +15,7 @@ type BusFixture = {
     loginPage: LoginPage;
     nodesPage: NodesPage;
     nodeDetailsPage: NodeDetailsPage;
+    teamsPage: TeamsPage;
     menu: Menu;
     waitForAPI;
     axeBuild;
@@ -36,6 +38,10 @@ export const test = base.extend<BusFixture & AxeOptions>({
 
     nodeDetailsPage: async ({ page }, use) => {
         await use(new NodeDetailsPage(page));
+    },
+
+    teamsPage: async ({ page }, use) => {
+        await use(new TeamsPage(page));
     },
 
     menu: async({ page }, use) => {
