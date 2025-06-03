@@ -8,4 +8,5 @@ Using the Ringier Event Bus Admin, this showcases the implementation of a Playwr
 * Wait for API request (avoid flakyness by waiting for API calls completion)
 * Data driven testing (TODO)
 * Handle multiple tabs
-* Accessibility testing (TODO)
+* Accessibility testing
+* Mock API response
