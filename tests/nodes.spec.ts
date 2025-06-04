@@ -1,4 +1,5 @@
 import { expect, test } from '../fixtures/fixture'
+import nodes from '../data/nodes.json'
 
 test.describe('Nodes page tests', () => {
 
@@ -53,7 +54,28 @@ test.describe('Nodes page tests', () => {
         const newNodesList = await nodesPage.getNodes();
         await expect(newNodesList.first()).toContainText(nodeToSearch);
     })
-        // Search with special chars
+
+    /**
+     * Test: Search for a node with special chars
+     * Showcase: Modify API response
+     */
+    test('Search with special chars', {
+        tag: ['@production','@staging','@dev']
+    }, async({ nodesPage, page }) => {
+        const searchTerm = '!@#$%^&*()/<>';
+        await page.route('*/**/api/nodes', async(route) => {
+            const response = await route.fetch();
+            const json = await response.json()
+            json.push(nodes.testNode);
+            await route.fulfill({ json })
+        })
+        
+        await page.reload();
+        await nodesPage.searchNode(searchTerm);
+        const nodesList = await nodesPage.getNodes();
+        await expect(nodesList).toHaveCount(1);
+        await expect(nodesList.first()).toContainText(searchTerm);
+    })
         // Filter by team
         // Filter by emit/receive
         // Display nodes per page
@@ -89,16 +111,14 @@ test.describe('Nodes page tests', () => {
     test('Search for non existent node', {
         tag: ['@production','@staging','@dev']
     }, async({ nodesPage }) => {
-        await nodesPage.searchNode('This node doesn\'t exist')
-        const nodesList = await nodesPage.getNodes()
-        await expect(nodesList).toHaveCount(1)
-        await expect(nodesList).toHaveText('No nodes found')
+        await nodesPage.searchNode('This node doesn\'t exist');
+        await nodesPage.assertNodeListIsEmpty();
     })
         
     test('Go to a non-existent page', {
         tag: ['@production','@staging','@dev']
     }, async({ nodesPage }) => {
-        await nodesPage.goToPage('0')
+        await nodesPage.goToPage('0');
         await nodesPage.assertNodeListIsNotEmpty();
     })
 

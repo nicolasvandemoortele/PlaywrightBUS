@@ -90,7 +90,13 @@ export class NodesPage {
 
     async assertNodeListIsNotEmpty() {
         const nodesList = await this.nodes;
-        await expect(await nodesList.count()).toBeGreaterThan(1)
-        await expect(nodesList.first()).not.toHaveText('No nodes found')
+        await expect(await nodesList.count()).toBeGreaterThan(1);
+        await expect(nodesList.first()).not.toHaveText('No nodes found');
+    }
+
+    async assertNodeListIsEmpty() {
+        const nodesList = await this.nodes;
+        await expect(nodesList).toHaveCount(1);
+        await expect(nodesList).toHaveText('No nodes found');
     }
 }
