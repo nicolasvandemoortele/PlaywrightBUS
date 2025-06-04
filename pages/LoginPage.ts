@@ -40,4 +40,11 @@ export class LoginPage {
         await this.signInButton.click();
         await this.page.waitForURL('/nodes');
     }
+
+    async loginUser(email: string, password: string) {
+        await this.emailInput.fill(email);
+        await this.passwordInput.fill(password);
+        await this.signInButton.click();
+        await this.page.waitForURL('/nodes');
+    }
 }

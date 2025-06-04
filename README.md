@@ -10,3 +10,5 @@ Using the Ringier Event Bus Admin, this showcases the implementation of a Playwr
 * Handle multiple tabs
 * Accessibility testing
 * Mock API response
+* Modify API response
+* Modify clock

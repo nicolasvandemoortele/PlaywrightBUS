@@ -1,6 +1,6 @@
 import { type Page, type Locator, expect } from '@playwright/test'
 
-export class UsersPage {
+export class StatusPage {
 
     private readonly page: Page;
 
@@ -9,6 +9,6 @@ export class UsersPage {
     }
 
     async navigate() {
-        await this.page.goto('/users');
+        await this.page.goto('/status');
     }
 }

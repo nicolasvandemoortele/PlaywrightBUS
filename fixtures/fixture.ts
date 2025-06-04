@@ -6,6 +6,8 @@ import { NodeDetailsPage } from '../pages/NodeDetailsPage';
 import { Menu } from '../pages/Menu';
 import AxeBuilder from '@axe-core/playwright';
 import { TeamsPage } from '../pages/TeamsPage';
+import { StatusPage } from '../pages/StatusPage';
+import { UsersPage } from '../pages/UsersPage';
 
 export type AxeOptions = {
   defaultLevel: string[];
@@ -16,6 +18,8 @@ type BusFixture = {
     nodesPage: NodesPage;
     nodeDetailsPage: NodeDetailsPage;
     teamsPage: TeamsPage;
+    statusPage: StatusPage;
+    usersPage: UsersPage;
     menu: Menu;
     waitForAPI;
     axeBuild;
@@ -42,6 +46,14 @@ export const test = base.extend<BusFixture & AxeOptions>({
 
     teamsPage: async ({ page }, use) => {
         await use(new TeamsPage(page));
+    },
+
+    statusPage: async ({ page }, use) => {
+        await use(new StatusPage(page));
+    },
+
+    usersPage: async ({ page }, use) => {
+        await use(new UsersPage(page));
     },
 
     menu: async({ page }, use) => {

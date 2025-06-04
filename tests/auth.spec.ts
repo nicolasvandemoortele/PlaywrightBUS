@@ -6,7 +6,9 @@ test.describe('Authentication', () => {
 
     const envName = process.env.ENV_NAME ? process.env.ENV_NAME : 'dev';
 
-    test('Subtitle correspond to the environment', async({ loginPage }) => {
+    test('Subtitle correspond to the environment', {
+        tag: ['@production','@staging','@dev']
+    }, async({ loginPage }) => {
         await loginPage.checkSubtitle(envName)
     })
 })
