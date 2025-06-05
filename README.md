@@ -12,3 +12,4 @@ Using the Ringier Event Bus Admin, this showcases the implementation of a Playwr
 * Mock API response
 * Modify API response
 * Modify clock
+* API testing

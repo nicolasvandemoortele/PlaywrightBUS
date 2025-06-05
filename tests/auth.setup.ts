@@ -1,5 +1,4 @@
 import { test as setup } from '../fixtures/fixture'
-import { request } from '@playwright/test'
 import path from 'path'
 
 const authFile = path.join(__dirname, '../.auth/user.json')
