@@ -36,7 +36,7 @@ test.describe('Auth API tests', () => {
 test.describe('Authenticated API tests', () => {
 
     let apiContext;
-    const apiBaseUrl = process.env.API_GW;
+    const apiBaseUrl: string = process.env.API_GW ? process.env.API_GW : '';
     test.use({
         baseURL: apiBaseUrl
     });
@@ -66,4 +66,9 @@ test.describe('Authenticated API tests', () => {
         const json = await response.json();
         expect(json.length).toBeGreaterThan(1);
     })
+
+    test.afterAll(async () => {
+        await apiContext.dispose();
+    })
 })
+

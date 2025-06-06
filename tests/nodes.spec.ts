@@ -76,9 +76,45 @@ test.describe('Nodes page tests', () => {
         await expect(nodesList).toHaveCount(1);
         await expect(nodesList.first()).toContainText(searchTerm);
     })
-        // Filter by team
-        // Filter by emit/receive
-        // Display nodes per page
+    
+    test('Filter by team', {
+        tag: ['@production', '@staging', '@dev']
+    }, async({ nodesPage, page }) => {
+        await page.route('*/**/api/nodes', async route => {
+            const json = nodes.filterNodes;
+            await route.fulfill({ json });
+        })
+        await page.reload();
+        await nodesPage.selectTeam('Team 1');
+        const nodesList = await nodesPage.getAllNodes();
+        for (const node of nodesList) {
+            await expect(node).not.toContainText('Team 2');
+            await expect(node).not.toContainText('Team 3');
+        }
+    })
+    
+    test('Filter only emitting nodes', {
+        tag: ['@production', '@staging', '@dev']
+    }, async({ nodesPage, page }) => {
+        await page.route('*/**/api/nodes', async route => {
+            const json = nodes.filterNodes;
+            await route.fulfill({ json });
+        })
+        await page.reload();
+        await nodesPage.filterBy('emits');
+        const nodesList = await nodesPage.getAllNodes();
+        for (const node of nodesList) {
+            await expect(node).not.toContainText('receives only');
+        }      
+    })
+
+    test('Display nodes per page', {
+        tag: ['@production', '@staging', '@dev']
+    }, async({ nodesPage }) => {
+        await nodesPage.displayNodesPerPage('50');
+        const nodeList = await nodesPage.getNodes();
+        await expect(nodeList).toHaveCount(50);
+    })
 
     /**
      * Test: Navigate to the last page then to the first page

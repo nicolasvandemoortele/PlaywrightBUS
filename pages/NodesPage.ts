@@ -8,6 +8,9 @@ export class NodesPage {
     private readonly search: Locator;
     private readonly teamFilter: Locator;
     private readonly emitFilter: Locator;
+    private readonly filterEmit: Locator;
+    private readonly filterReceive: Locator;
+    private readonly filterBoth: Locator;
     private readonly nodePerPage: Locator;
     private readonly pageInput: Locator;
     private readonly previous: Locator;
@@ -18,11 +21,14 @@ export class NodesPage {
     constructor(page: Page) {
         this.page = page;
         this.title = page.locator('h2').first();
-        this.search = page.getByRole('textbox', { name: 'Search' })
+        this.search = page.getByRole('textbox', { name: 'Search' });
         this.teamFilter = page.getByText('All teams');
         this.emitFilter = page.getByText('Emits and receives events');
-        this.nodePerPage = page.getByLabel('nodes per page:')
-        this.pageInput = page.getByRole('textbox', { name: 'page of' })
+        this.filterEmit = page.getByRole('menuitem', { name: 'Emits events'});
+        this.filterReceive = page.getByRole('menuitem', { name: 'Receives events'});
+        this.filterBoth = page.getByRole('menuitem', { name: 'Emits and receives events'});
+        this.nodePerPage = page.getByLabel('nodes per page:');
+        this.pageInput = page.getByRole('textbox', { name: 'page of' });
         this.previous = page.getByRole('button', { name: 'previous '});
         this.next = page.getByRole('button', { name: 'next '});
         this.addNewButton = page.getByRole('button', { name: 'Add New'});
@@ -35,12 +41,12 @@ export class NodesPage {
             await this.page.goto('/nodes')
         ]);
         await expect(response.ok()).toBeTruthy();
-        const json = await response.json()
-        await expect(json.length).toBeGreaterThan(1)
+        const json = await response.json();
+        await expect(json.length).toBeGreaterThan(1);
     }
 
     async checkTitle() {
-        await expect(this.title).toHaveText('Nodes', { ignoreCase: true })
+        await expect(this.title).toHaveText('Nodes', { ignoreCase: true });
     }
 
     async checkPageElements() {
@@ -58,6 +64,10 @@ export class NodesPage {
         return await this.nodes;
     }
 
+    async getAllNodes() {
+        return await this.nodes.all();
+    }
+
     async searchNode(term: string) {
         await this.search.clear();
         await this.search.fill(term);
@@ -71,21 +81,51 @@ export class NodesPage {
     }
 
     async goToNextPage() {
-        await this.next.click()
+        await this.next.click();
     }
 
     async goToPreviousPage() {
-        await this.previous.click()
+        await this.previous.click();
+    }
+
+    async selectTeam(team: string) {
+        await this.teamFilter.click();
+        await this.page.getByRole('menuitem', { name: team }).click();
+    }
+
+    /**
+     * Filters node by emitting, receving or both
+     * @param direction valid options: "emits", "receives", "both"
+     */
+    async filterBy(direction: string) {
+        await this.emitFilter.click()
+        switch (direction) {
+            case 'emits':
+                await this.filterEmit.click();
+                break;
+            case 'receives':
+                await this.filterReceive.click();
+                break;
+            case 'both':
+                await this.filterBoth.click();
+                break;
+            default:
+                console.log('No such filter');
+        }
+    }
+
+    async displayNodesPerPage(num: string) {
+        await this.nodePerPage.selectOption(num);
     }
 
     async isOnLastPage() {
-        const classAttr = await this.next.getAttribute('class')
-        return classAttr?.includes('disabled')
+        const classAttr = await this.next.getAttribute('class');
+        return classAttr?.includes('disabled');
     }
 
     async isOnFirstPage() {
-        const classAttr = await this.previous.getAttribute('class')
-        return classAttr?.includes('disabled')
+        const classAttr = await this.previous.getAttribute('class');
+        return classAttr?.includes('disabled');
     }
 
     async assertNodeListIsNotEmpty() {

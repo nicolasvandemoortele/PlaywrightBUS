@@ -75,5 +75,107 @@
         },
         "routes": [],
         "updated_at": "2025-06-04T10:27:58.945609607Z"
+    },
+    "filterNodes": [
+        {
+        "created_at": "2021-04-15T10:50:37.488282833Z",
+        "created_by": "nicolas.vdm@gmail.com",
+        "deleted_at": null,
+        "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum",
+        "emits_events": true,
+        "emits_settings": {
+            "event_routing": [
+                "event",
+                "route"
+            ],
+            "parent_node_id": "",
+            "use_api": false,
+            "use_queue": false
+        },
+        "group": "Team 1",
+        "group_id": "51250d9f-4d07-4f37-8da1-9d67e99db214",
+        "is_production": false,
+        "name": "Team 1 Node 1 emits and receive",
+        "node_id": "5afbaceb-8663-4b66-b047-ad891ff2b5f1",
+        "node_version": 30542,
+        "receiver_running": true,
+        "receives_events": true,
+        "updated_at": "2025-06-04T10:27:58.945609607Z"        
+    },
+    {
+        "created_at": "2021-04-15T10:50:37.488282833Z",
+        "created_by": "nicolas.vdm@gmail.com",
+        "deleted_at": null,
+        "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum",
+        "emits_events": false,
+        "emits_settings": {
+            "event_routing": [
+                "event",
+                "route"
+            ],
+            "parent_node_id": "",
+            "use_api": false,
+            "use_queue": false
+        },
+        "group": "Team 1",
+        "group_id": "51250d9f-4d07-4f37-8da1-9d67e99db214",
+        "is_production": false,
+        "name": "Team 1 Node 2 receives only",
+        "node_id": "5afbaceb-8663-4b66-b047-ad891ff2b5f2",
+        "node_version": 30542,
+        "receiver_running": true,
+        "receives_events": true,
+        "updated_at": "2025-06-04T10:27:58.945609607Z"        
+    },
+    {
+        "created_at": "2021-04-15T10:50:37.488282833Z",
+        "created_by": "nicolas.vdm@gmail.com",
+        "deleted_at": null,
+        "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum",
+        "emits_events": true,
+        "emits_settings": {
+            "event_routing": [
+                "event",
+                "route"
+            ],
+            "parent_node_id": "",
+            "use_api": false,
+            "use_queue": false
+        },
+        "group": "Team 2",
+        "group_id": "51250d9f-4d07-4f37-8da1-9d67e99db215",
+        "is_production": false,
+        "name": "Team 2 Node 1 emits only",
+        "node_id": "5afbaceb-8663-4b66-b047-ad891ff2b5f3",
+        "node_version": 30542,
+        "receiver_running": true,
+        "receives_events": false,
+        "updated_at": "2025-06-04T10:27:58.945609607Z"        
+    },
+    {
+        "created_at": "2021-04-15T10:50:37.488282833Z",
+        "created_by": "nicolas.vdm@gmail.com",
+        "deleted_at": null,
+        "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum",
+        "emits_events": false,
+        "emits_settings": {
+            "event_routing": [
+                "event",
+                "route"
+            ],
+            "parent_node_id": "",
+            "use_api": false,
+            "use_queue": false
+        },
+        "group": "Team 3",
+        "group_id": "51250d9f-4d07-4f37-8da1-9d67e99db216",
+        "is_production": false,
+        "name": "Team 3 Node 1",
+        "node_id": "5afbaceb-8663-4b66-b047-ad891ff2b5f4",
+        "node_version": 30542,
+        "receiver_running": true,
+        "receives_events": true,
+        "updated_at": "2025-06-04T10:27:58.945609607Z"        
     }
+]
 }
