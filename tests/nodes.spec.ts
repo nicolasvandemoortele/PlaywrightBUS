@@ -140,7 +140,6 @@ test.describe('Nodes page tests', () => {
         
         await nodesPage.assertNodeListIsNotEmpty();
     })
-        // Click on add new
 
     // Negative tests
     
