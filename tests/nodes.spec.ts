@@ -28,7 +28,7 @@ test.describe('Nodes page tests', () => {
         const nodeList = await nodesPage.getNodes()
         const [newTab] = await Promise.all([
             context.waitForEvent('page'),
-            await nodeList.first().click({ modifiers: ["ControlOrMeta"]})
+            nodeList.first().click({ modifiers: ["ControlOrMeta"]})
         ])
         await expect(newTab.locator('h2')).toHaveText('Details and settings')
 
@@ -76,7 +76,11 @@ test.describe('Nodes page tests', () => {
         await expect(nodesList).toHaveCount(1);
         await expect(nodesList.first()).toContainText(searchTerm);
     })
-    
+
+    /**
+     * Test: Filter by team name
+     * Showcase: Mock API response
+     */
     test('Filter by team', {
         tag: ['@production', '@staging', '@dev']
     }, async({ nodesPage, page }) => {
@@ -92,7 +96,11 @@ test.describe('Nodes page tests', () => {
             await expect(node).not.toContainText('Team 3');
         }
     })
-    
+
+    /**
+     * Test: Filter by emitting node
+     * Showcase: Mock API response
+     */
     test('Filter only emitting nodes', {
         tag: ['@production', '@staging', '@dev']
     }, async({ nodesPage, page }) => {

@@ -11,7 +11,7 @@ test.describe('Navigation', () => {
     }, async({ menu, nodesPage, context }) => {
         const [newTab] = await Promise.all([
             context.waitForEvent('page'),
-            await menu.openDocs()
+            menu.openDocs()
         ]);
 
         // Check that documentation has been opened in a new page
